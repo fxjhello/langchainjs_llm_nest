@@ -9,7 +9,7 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     client;
     clientConfig;
 
-    constructor(fields, configuration) {
+    constructor(fields?, configuration?) {
         super(fields ?? {});
         Object.defineProperty(this, "modelName", {
             enumerable: true,
