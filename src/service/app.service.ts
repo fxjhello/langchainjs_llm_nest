@@ -5,7 +5,8 @@ import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 
 import { RetrievalQAChain } from 'langchain/chains';
-//import { ChatGlm6BLLm } from '../llm/chatglm_6b_llm';
+import { ChatGlm6BLLm } from '../llms/chatglm_6b_llm';
+import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.embedding';
 //import { CohereEmbeddings } from "langchain/embeddings/cohere";
 // import { OpenAI } from 'langchain/llms/openai';
 
@@ -13,7 +14,7 @@ import { RetrievalQAChain } from 'langchain/chains';
 export class AppService {
   async run() {
     // Create docs with a loader
-    //const model = new ChatGlm6BLLm({});
+    const model = new ChatGlm6BLLm({});
     const loader = new DirectoryLoader(
       "./fileUpload",
       {
@@ -28,29 +29,29 @@ export class AppService {
       `./fileUpload`
     ); */
     const docs = await loader.load();
-    console.log({ docs });
+    //console.log({ docs });
     // Load the docs into the vector store
-    // const vectorStore = await HNSWLib.fromDocuments(
-    //   docs,
-    //   new OpenAIEmbeddings()
-    // );
-    const directory = 'your/directory/here';
-    // await vectorStore.save(directory);
+     const vectorStore = await HNSWLib.fromDocuments(
+       docs,
+       new T2VLargeChineseEmbeddings()
+     );
+    const directory = './fileProcessing';
+     await vectorStore.save(directory);
 
     // Load the vector store from the same directory
     const loadedVectorStore = await HNSWLib.load(
       directory,
-      new OpenAIEmbeddings()
+      new T2VLargeChineseEmbeddings()
     );
     // Search for the most similar document
-   /*  const chain = RetrievalQAChain.fromLLM(
+    const chain = RetrievalQAChain.fromLLM(
       model,
       loadedVectorStore.asRetriever()
     );
     const res = await chain.call({
       query: 'What did the president say about Justice Breyer?',
     });
-    console.log({ res }); */
+    console.log({ res });
     /* const result = await loadedVectorStore.similaritySearch('hello world', 1);
     console.log(result); */
   }
