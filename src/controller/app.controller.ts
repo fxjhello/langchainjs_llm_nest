@@ -23,17 +23,12 @@ export class AppController {
 
   @UseInterceptors(FileInterceptor('file'))
   @Post('file')
-  uploadFile(
+  async uploadFile(
     @Body() body: SampleDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    this.appService.run();
-    console.log(file.destination);
-    
-    return {
-      body,
-      file: file
-    };
+    return await this.appService.run();
+
   }
 
   @UseInterceptors(FileInterceptor('file'))

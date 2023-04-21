@@ -7,7 +7,7 @@ import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { RetrievalQAChain } from 'langchain/chains';
 import { ChatGlm6BLLm } from '../llms/chatglm_6b_llm';
 import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.embedding';
-//import { CohereEmbeddings } from "langchain/embeddings/cohere";
+import { CohereEmbeddings } from "langchain/embeddings/cohere";
 // import { OpenAI } from 'langchain/llms/openai';
 
 @Injectable()
@@ -31,6 +31,7 @@ export class AppService {
     const docs = await loader.load();
     //console.log({ docs });
     // Load the docs into the vector store
+
      const vectorStore = await HNSWLib.fromDocuments(
        docs,
        new T2VLargeChineseEmbeddings()
