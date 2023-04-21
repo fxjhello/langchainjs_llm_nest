@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from '../controller/app.controller';
 import { AppService } from '../service/app.service';
 import { MulterModule } from '@nestjs/platform-express';
+
 //import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
+import { ChatglmModule } from './chatgml.module';
 @Module({
   imports:[
     MulterModule.register({
@@ -18,7 +20,7 @@ import { diskStorage } from 'multer';
         },
       }),
     }),
-
+    ChatglmModule
   ],
   controllers: [AppController],
   providers: [AppService],
