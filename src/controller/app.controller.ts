@@ -1,4 +1,5 @@
 import {
+  Headers,
   Body,
   Controller,
   Get,
@@ -30,7 +31,22 @@ export class AppController {
     return await this.appService.run();
 
   }
+@Post('chat')
+ async chat(
+  @Body()  chatcontent,
+  @Headers() Headers,
+) {
+  return await this.appService.chat(chatcontent.message);
 
+}
+
+
+
+
+
+
+
+//暂时用不到的
   @UseInterceptors(FileInterceptor('file'))
   @Post('file/pass-validation')
   uploadFileAndPassValidation(

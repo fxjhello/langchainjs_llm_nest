@@ -8,7 +8,7 @@ export class ChatGlm6BLLM extends BaseChatModel {
   temperature: number;
   max_length: number;
   top_p: number;
-
+  history:[];
   constructor(fields, configuration?) {
     super(fields ?? {});
 

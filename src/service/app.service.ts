@@ -13,6 +13,8 @@ import {
   HumanMessagePromptTemplate,
   ChatPromptTemplate,
 } from "langchain/prompts";
+//import { AppModule } from '../module/app.module';
+//import { NestFactory } from '@nestjs/core';
 // import { OpenAI } from 'langchain/llms/openai';
 
 @Injectable()
@@ -46,29 +48,8 @@ export class AppService {
     await vectorStore.save(directory);
 
     // Load the vector store from the same directory
-    const loadedVectorStore = await HNSWLib.load(
-      directory,
-      new T2VLargeChineseEmbeddings()
-    );
+    
 
-    const result = await loadedVectorStore.similaritySearch("娃哈哈", 1);
-  console.log('result111111111111111111111111111111111111',result);
-  //根据内容回答问题
-  const chat = new ChatGlm6BLLM({ temperature: 0.01 });
-  const translationPrompt = ChatPromptTemplate.fromPromptMessages([
-    SystemMessagePromptTemplate.fromTemplate(
-      `使用以下文段, 用中文回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
-    ),
-    HumanMessagePromptTemplate.fromTemplate("{text}"),
-  ]);
-  const chain = new LLMChain({
-    prompt: translationPrompt,
-    llm: chat,
-  });
-  const responseB = await chain.call({
-    text: "东大开江成立于什么时候",
-  });
-  console.log(responseB);
     // Search for the most similar document
     /* const chain = RetrievalQAChain.fromLLM(
       model,
@@ -81,6 +62,39 @@ export class AppService {
     /* const result = await loadedVectorStore.similaritySearch('hello world', 1);
     console.log(result); */
   }
+async chat(chatcontent) {
+//根据内容回答问题
+//const app = await NestFactory.create(AppModule);
+const directory = './fileProcessing';
+const loadedVectorStore = await HNSWLib.load(
+  directory,
+  new T2VLargeChineseEmbeddings()
+);
+const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
+const fileSourceStr = result[0].metadata.source
+//console.log(app.getUrl() + '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]);
+
+const chat = new ChatGlm6BLLM({ temperature: 0.01 });
+const translationPrompt = ChatPromptTemplate.fromPromptMessages([
+  SystemMessagePromptTemplate.fromTemplate(
+    `使用以下文段, 用中文回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
+  ),
+  HumanMessagePromptTemplate.fromTemplate("{text}"),
+]);
+const chain = new LLMChain({
+  prompt: translationPrompt,
+  llm: chat,
+});
+const responseB = await chain.call({
+  text: chatcontent,
+});
+//responseB.push({link: '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]})
+console.log(responseB);
+return responseB
+
+}
+
+
   getHello() {
     return { hello: 'world' };
   }
