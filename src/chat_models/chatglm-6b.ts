@@ -8,7 +8,7 @@ export class ChatGlm6BLLM extends BaseChatModel {
   temperature: number;
   max_length: number;
   top_p: number;
-  history:[];
+  history:[][];
   constructor(fields, configuration?) {
     super(fields ?? {});
 
@@ -34,6 +34,7 @@ export class ChatGlm6BLLM extends BaseChatModel {
     this.temperature = fields?.temperature ?? this.temperature;
     this.max_length = fields?.max_length ?? this.max_length;
     this.top_p = fields?.top_p ?? this.top_p;
+    this.history =fields?.history ??[];
   }
   invocationParams() {
     return {
@@ -41,6 +42,7 @@ export class ChatGlm6BLLM extends BaseChatModel {
       temperature: this.temperature,
       top_p: this.top_p,
       max_length: this.max_length,
+      history:this.history
     };
   }
   _identifyingParams() {

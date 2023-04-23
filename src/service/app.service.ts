@@ -74,7 +74,7 @@ const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
 const fileSourceStr = result[0].metadata.source
 //console.log(app.getUrl() + '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]);
 
-const chat = new ChatGlm6BLLM({ temperature: 0.01 });
+const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:[[11111]]});
 const translationPrompt = ChatPromptTemplate.fromPromptMessages([
   SystemMessagePromptTemplate.fromTemplate(
     `使用以下文段, 用中文回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
