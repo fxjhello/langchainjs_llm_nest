@@ -12,7 +12,11 @@ import {
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
   ChatPromptTemplate,
+  MessagesPlaceholder,
 } from "langchain/prompts";
+import { BufferWindowMemory } from "langchain/memory";
+import { ConversationChain } from "langchain/chains";
+import { BufferMemory } from "langchain/memory";
 //import { AppModule } from '../module/app.module';
 //import { NestFactory } from '@nestjs/core';
 // import { OpenAI } from 'langchain/llms/openai';
@@ -62,7 +66,7 @@ export class AppService {
     /* const result = await loadedVectorStore.similaritySearch('hello world', 1);
     console.log(result); */
   }
-async chat(chatcontent) {
+async chatfile(chatcontent,history) {
 //根据内容回答问题
 //const app = await NestFactory.create(AppModule);
 const directory = './fileProcessing';
@@ -74,13 +78,18 @@ const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
 const fileSourceStr = result[0].metadata.source
 //console.log(app.getUrl() + '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]);
 
-const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:[[11111]]});
+const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:history});
 const translationPrompt = ChatPromptTemplate.fromPromptMessages([
   SystemMessagePromptTemplate.fromTemplate(
     `使用以下文段, 用中文回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
   ),
+  /* new MessagesPlaceholder("history"), */
   HumanMessagePromptTemplate.fromTemplate("{text}"),
 ]);
+/* const memory = new BufferMemory({ returnMessages: true, memoryKey: "history" });
+console.log(1111111,memory); */
+
+/* const chain = new ConversationChain({  prompt: translationPrompt,llm: chat, memory: new BufferMemory({ returnMessages: true, memoryKey: "history" }), }); */
 const chain = new LLMChain({
   prompt: translationPrompt,
   llm: chat,
@@ -89,6 +98,7 @@ const responseB = await chain.call({
   text: chatcontent,
 });
 //responseB.push({link: '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]})
+
  return {
     response: responseB,
     url: '/static/' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]
@@ -96,6 +106,36 @@ const responseB = await chain.call({
 
 }
 
+async chat(chatcontent,history) {
+  //根据内容回答问题
+  //const app = await NestFactory.create(AppModule);
+  
+  const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:history});
+  const translationPrompt = ChatPromptTemplate.fromPromptMessages([
+    SystemMessagePromptTemplate.fromTemplate(
+      `你是开江内部助手，可以回答用户的问题，为你提供有用信息，帮助你完成文字工作`
+    ),
+    /* new MessagesPlaceholder("history"), */
+    HumanMessagePromptTemplate.fromTemplate("{text}"),
+  ]);
+  /* const memory = new BufferMemory({ returnMessages: true, memoryKey: "history" });
+  console.log(1111111,memory); */
+  
+  /* const chain = new ConversationChain({  prompt: translationPrompt,llm: chat, memory: new BufferMemory({ returnMessages: true, memoryKey: "history" }), }); */
+  const chain = new LLMChain({
+    prompt: translationPrompt,
+    llm: chat,
+  });
+  const responseB = await chain.call({
+    text: chatcontent,
+  });
+  //responseB.push({link: '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]})
+  
+   return  responseB
+      
+  
+  
+  }
 
   getHello() {
     return { hello: 'world' };

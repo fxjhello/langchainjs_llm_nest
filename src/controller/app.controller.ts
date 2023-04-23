@@ -31,12 +31,21 @@ export class AppController {
     return await this.appService.run();
 
   }
+@Post('chatfile')
+ async chatfile(
+  @Body()  chatcontent,
+  @Headers() Headers,
+) {
+  return await this.appService.chatfile(chatcontent.message,chatcontent.history);
+
+}
+
 @Post('chat')
  async chat(
   @Body()  chatcontent,
   @Headers() Headers,
 ) {
-  return await this.appService.chat(chatcontent.message);
+  return await this.appService.chat(chatcontent.message,chatcontent.history);
 
 }
 

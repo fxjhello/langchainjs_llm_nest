@@ -22,7 +22,7 @@ export class ChatGlm6BLLM extends BaseChatModel {
       enumerable: true,
       configurable: true,
       writable: true,
-      value: 256,
+      value: 2048,
     });
     Object.defineProperty(this, 'top_p', {
       enumerable: true,
