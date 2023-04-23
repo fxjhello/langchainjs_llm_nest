@@ -29,15 +29,16 @@ export class AppService {
       `./fileUpload`
     ); */
     const docs = await loader.load();
-    //console.log({ docs });
+    console.log({ docs });
     // Load the docs into the vector store
 
-     const vectorStore = await HNSWLib.fromDocuments(
-       docs,
-       new T2VLargeChineseEmbeddings()
-     );
+    const vectorStore = await HNSWLib.fromDocuments(
+      docs,
+      new T2VLargeChineseEmbeddings()
+    );
+    
     const directory = './fileProcessing';
-     await vectorStore.save(directory);
+    await vectorStore.save(directory);
 
     // Load the vector store from the same directory
     const loadedVectorStore = await HNSWLib.load(

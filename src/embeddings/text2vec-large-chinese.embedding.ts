@@ -11,12 +11,6 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
 
     constructor(fields?, configuration?) {
         super(fields ?? {});
-        Object.defineProperty(this, "modelName", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: "text-embedding-ada-002"
-        });
         Object.defineProperty(this, "batchSize", {
             enumerable: true,
             configurable: true,
@@ -53,22 +47,19 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
         this.stripNewLines = fields?.stripNewLines ?? this.stripNewLines;
         this.timeout = fields?.timeout;
         this.clientConfig = {
-         
+        
             ...configuration,
         };
     }
     async embedDocuments(texts) {
         const subPrompts = chunkArray(this.stripNewLines ? texts.map((t) => t.replaceAll("\n", " ")) : texts, this.batchSize);
-
-        console.log('subPrompts',subPrompts);
-        
         const embeddings = [];
-
         for (let i = 0; i < subPrompts.length; i += 1) {
             const input = subPrompts[i];
             const { data } = await this.embeddingWithRetry({
                 documents: input,
             });
+
             for (let j = 0; j < input.length; j += 1) {
                 embeddings.push(data[j]);
             }
@@ -77,16 +68,14 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     }
     async embedQuery(text) {
         const { data } = await this.embeddingWithRetry({
-            model: this.modelName,
-            input: text,
+            documents: text,
         });
         return data.embedding;
     }
     async embeddingWithRetry(request) {
-
-        
         const makeCompletionRequest = async (params:any) => {
-            console.log('request',params);
+            // console.log('params ', params);
+            
             const res: any = await axios.post('http://192.168.1.99:56391/embedDocuments', params, {
                 headers: {
                 'Content-Type': 'application/json',
