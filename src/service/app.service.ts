@@ -44,15 +44,18 @@ export class AppService {
       directory,
       new T2VLargeChineseEmbeddings()
     );
+
+    const result = await loadedVectorStore.similaritySearch("hello world", 1);
+  console.log(result);
     // Search for the most similar document
-    const chain = RetrievalQAChain.fromLLM(
+    /* const chain = RetrievalQAChain.fromLLM(
       model,
       loadedVectorStore.asRetriever()
     );
     const res = await chain.call({
       query: 'What did the president say about Justice Breyer?',
     });
-    console.log({ res });
+    console.log({ res }); */
     /* const result = await loadedVectorStore.similaritySearch('hello world', 1);
     console.log(result); */
   }
