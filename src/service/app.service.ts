@@ -34,12 +34,12 @@ export class AppService {
       `./fileUpload`
     ); */
     const docs = await loader.load();
-    console.log({ docs });
+    // console.log({ docs });
     // Load the docs into the vector store
 
     const vectorStore = await HNSWLib.fromDocuments(
       docs,
-      new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
+      new T2VLargeChineseEmbeddings()
     );
     
     const directory = './fileProcessing';
@@ -48,11 +48,11 @@ export class AppService {
     // Load the vector store from the same directory
     const loadedVectorStore = await HNSWLib.load(
       directory,
-      new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
+      new T2VLargeChineseEmbeddings()
     );
 
-    const result = await loadedVectorStore.similaritySearch("hello world", 1);
-  console.log(result);
+    const result = await loadedVectorStore.similaritySearch("娃哈哈", 1);
+  console.log('result111111111111111111111111111111111111',result);
   //根据内容回答问题
   const chat = new ChatGlm6BLLM({ temperature: 0.01 });
   const translationPrompt = ChatPromptTemplate.fromPromptMessages([

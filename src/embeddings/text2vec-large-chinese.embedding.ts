@@ -7,15 +7,15 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     stripNewLines;
     timeout;
     client;
-    clientConfig;
 
-    constructor(fields?, configuration?) {
+
+    constructor(fields?) {
         super(fields ?? {});
         Object.defineProperty(this, "batchSize", {
             enumerable: true,
             configurable: true,
             writable: true,
-            value: 512
+            value: 1024
         });
         Object.defineProperty(this, "stripNewLines", {
             enumerable: true,
@@ -46,10 +46,6 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
         this.batchSize = fields?.batchSize ?? this.batchSize;
         this.stripNewLines = fields?.stripNewLines ?? this.stripNewLines;
         this.timeout = fields?.timeout;
-        this.clientConfig = {
-        
-            ...configuration,
-        };
     }
     async embedDocuments(texts) {
         const subPrompts = chunkArray(this.stripNewLines ? texts.map((t) => t.replaceAll("\n", " ")) : texts, this.batchSize);
@@ -70,7 +66,7 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
         const { data } = await this.embeddingWithRetry({
             documents: text,
         });
-        return data.embedding;
+        return data[0];
     }
     async embeddingWithRetry(request) {
         const makeCompletionRequest = async (params:any) => {
