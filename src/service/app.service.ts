@@ -89,8 +89,10 @@ const responseB = await chain.call({
   text: chatcontent,
 });
 //responseB.push({link: '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]})
-console.log(responseB);
-return responseB
+ return {
+    response: responseB,
+    url: '/static/' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]
+ }
 
 }
 
