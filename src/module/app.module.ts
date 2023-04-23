@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from '../controller/app.controller';
 import { AppService } from '../service/app.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { MulterModule } from '@nestjs/platform-express';
+import { join } from 'path';
 
 //import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
@@ -19,6 +21,10 @@ import { ChatglmModule } from './chatgml.module';
           return  cb(null, file.originalname);
         },
       }),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'fileUpload'),
+      serveRoot: '/static',
     }),
     ChatglmModule
   ],
