@@ -113,7 +113,7 @@ async chat(chatcontent,history) {
   const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:history});
   const translationPrompt = ChatPromptTemplate.fromPromptMessages([
     SystemMessagePromptTemplate.fromTemplate(
-      `你是开江内部助手，可以回答用户的问题，为你提供有用信息，帮助你完成文字工作`
+      `你是开江内部助手，可以回答用户的问题，提供有用信息，帮助完成文字工作`
     ),
     /* new MessagesPlaceholder("history"), */
     HumanMessagePromptTemplate.fromTemplate("{text}"),
