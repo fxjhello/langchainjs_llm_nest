@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { TextLoader } from 'langchain/document_loaders/fs/text';
+import { DocxLoader } from "langchain/document_loaders/fs/docx";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import {ChatGlm6BLLM} from '../chat_models/chatglm-6b'
 import { LLMChain, RetrievalQAChain } from 'langchain/chains';
@@ -32,6 +34,8 @@ export class AppService {
         //".json": (path) => new JSONLoader(path, "/texts"),
         //".jsonl": (path) => new JSONLinesLoader(path, "/html"),
         ".txt": (path) => new TextLoader(path),
+        ".docx": (path) => new DocxLoader(path),
+        ".pdf":(path) => new PDFLoader(path),
         //".csv": (path) => new CSVLoader(path, "text"),
       }
     );
@@ -40,14 +44,15 @@ export class AppService {
       `./fileUpload`
     ); */
     const docs = await loader.load();
+    console.log(docs)
     // console.log({ docs });
     // Load the docs into the vector store
 
     const vectorStore = await HNSWLib.fromDocuments(
       docs,
+      //new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
       new T2VLargeChineseEmbeddings()
     );
-    
     const directory = './fileProcessing';
     await vectorStore.save(directory);
 
@@ -72,6 +77,7 @@ async chatfile(chatcontent,history) {
 const directory = './fileProcessing';
 const loadedVectorStore = await HNSWLib.load(
   directory,
+  //new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
   new T2VLargeChineseEmbeddings()
 );
 const result = await loadedVectorStore.similaritySearch(chatcontent, 1);

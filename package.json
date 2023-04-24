@@ -30,7 +30,9 @@
     "fs": "0.0.1-security",
     "hnswlib-node": "^1.4.2",
     "langchain": "^0.0.59",
+    "mammoth": "^1.5.1",
     "openai": "^3.2.1",
+    "pdf-parse": "^1.1.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "4.4.1",
     "rxjs": "7.5.5"
