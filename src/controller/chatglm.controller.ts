@@ -9,7 +9,7 @@ export class ChatglmController {
   @Post('question')
   async embbedingQuery(@Body() body:any ) {
     const {fileName} = body;
-    const text = await this.fileService.readTextFile(fileName)
-    return text
+    // const text = await this.fileService.readTextFile(fileName)
+    // return text
   }
 }

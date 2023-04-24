@@ -8,6 +8,8 @@ import { join } from 'path';
 //import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
 import { ChatglmModule } from './chatgml.module';
+import { FileController } from 'src/controller/file.controller';
+import { FileService } from 'src/service/file.service';
 @Module({
   imports:[
     MulterModule.register({
@@ -28,7 +30,7 @@ import { ChatglmModule } from './chatgml.module';
     }),
     ChatglmModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,FileController],
+  providers: [AppService , FileService],
 })
 export class AppModule {}
