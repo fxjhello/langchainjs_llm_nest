@@ -87,7 +87,7 @@ const fileSourceStr = result[0].metadata.source
 const chat = new ChatGlm6BLLM({ temperature: 0.01 ,history:history});
 const translationPrompt = ChatPromptTemplate.fromPromptMessages([
   SystemMessagePromptTemplate.fromTemplate(
-    `使用以下文段, 用中文回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
+    `基于已知内容, 回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`
   ),
   /* new MessagesPlaceholder("history"), */
   HumanMessagePromptTemplate.fromTemplate("{text}"),
