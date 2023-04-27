@@ -83,7 +83,6 @@ const directory = './fileProcessing';
 // const loadedVectorStore = await HNSWLib.load(directory, new T2VLargeChineseEmbeddings());
 const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
 const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
-console.log('ffffffffffffffff',result);
 
 const fileSourceStr = result[0].metadata.source
 //console.log(app.getUrl() + '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]);
