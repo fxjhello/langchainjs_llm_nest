@@ -38,8 +38,29 @@ Node18,Python 3
 请参考 [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
 
 ### 安装依赖并启动
+- 项目下载\
+  ```git clone https://github.com/fxjhello/langchain_chatglm_nest.git```
+- 启动
 
+  - javascript\
+    `cd langchain_chatglm_nest`
+    - yarn
+    - pnpm i
+  - chatGLM-6B\
+    `cd ChatGLM-6B`
+    - pip install -r requirements.txt #建议走国内pip镜像源，比较快
+    - python api.py
+  - embedding\
+    `cd ../embedding`
+    - python api.py # 依赖讲道理都可以在chatGLM-6B的依赖里
+- 配置
+  - .env\
+    `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`
 
+### 提问
+- issues
+- 微信群
+  欢迎大家提问，我们会补充文档和优化的
 ## 鸣谢
 本项目的原理图，实现思路，以及Embedding 模型py封装，均来自(https://github.com/imClumsyPanda/langchain-ChatGLM/tree/master)
 
