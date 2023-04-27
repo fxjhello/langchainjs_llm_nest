@@ -4,7 +4,7 @@
 
 本项目旨在实现支持js开发本地知识AI中后台。其中的模型部分采用Python封装，并使用Fastapi暴露出接口。对模型部署和Python等不熟悉的开发人员，只需安装依赖并启动即可，将模型部分当作黑盒使用。中后台使用Langchain.js+nest.js框架，如需对业务逻辑做出更改，只需要在这部分开发，实现纯ts/js开发业务逻辑。
 
-⛓️ 本项目实现原理如下图来自(https://github.com/imClumsyPanda/langchain-ChatGLM/tree/master)所示，过程包括加载文件 -> 读取文本 -> 文本分割 -> 文本向量化 -> 问句向量化 -> 在文本向量中匹配出与问句向量最相似的`top k`个 -> 匹配出的文本作为上下文和问题一起添加到`prompt`中 -> 提交给`LLM`生成回答。
+⛓️ 本项目实现原理如下图来自(https://github.com/imClumsyPanda/langchain-ChatGLM/tree/master) 所示，过程包括加载文件 -> 读取文本 -> 文本分割 -> 文本向量化 -> 问句向量化 -> 在文本向量中匹配出与问句向量最相似的`top k`个 -> 匹配出的文本作为上下文和问题一起添加到`prompt`中 -> 提交给`LLM`生成回答。
 
 ![实现原理图](img/langchain+chatglm.png)
 
