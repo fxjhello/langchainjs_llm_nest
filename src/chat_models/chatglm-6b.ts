@@ -91,10 +91,8 @@ export class ChatGlm6BLLM extends BaseChatModel {
     };
   }
   async completionWithRetry(request) {
-    console.log('request ', request);
-
     const makeCompletionRequest = async () => {
-      const res: any = await axios.post('http://192.168.1.99:56721/', request, {
+      const res: any = await axios.post(process.env.CHATGLM_6B_SERVER_URL, request, {
         headers: {
           'Content-Type': 'application/json',
         },

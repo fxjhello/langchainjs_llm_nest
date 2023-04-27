@@ -70,9 +70,7 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     }
     async embeddingWithRetry(request) {
         const makeCompletionRequest = async (params:any) => {
-            // console.log('params ', params);
-            
-            const res: any = await axios.post('http://192.168.1.99:56391/embedDocuments', params, {
+            const res: any = await axios.post( `${process.env.EMBEDDING_SERVER_URL}/embedDocuments`, params, {
                 headers: {
                 'Content-Type': 'application/json',
                 },
@@ -83,7 +81,7 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     }
 }
 function chunkArray (arr, chunkSize) {
-   return  arr.reduce((chunks, elem, index) => {
+    return  arr.reduce((chunks, elem, index) => {
     const chunkIndex = Math.floor(index / chunkSize);
     const chunk = chunks[chunkIndex] || [];
     // eslint-disable-next-line no-param-reassign
