@@ -16,6 +16,7 @@ import {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } from "langchain/prompts";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { BufferWindowMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
@@ -43,7 +44,10 @@ export class AppService {
       //'src/config/config.default.ts'
       `./fileUpload`
     ); */
-    const docs = await loader.load();
+   const  textsplitter = new RecursiveCharacterTextSplitter({separators : ["\n\n", "\n", "。", "！", "？"], 
+   chunkSize: 400,
+   chunkOverlap: 100,})
+    const docs = await loader.loadAndSplit(textsplitter);
     console.log(docs)
     // console.log({ docs });
     // Load the docs into the vector store
