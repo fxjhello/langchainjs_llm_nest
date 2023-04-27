@@ -10,6 +10,7 @@ import { LLMChain, RetrievalQAChain } from 'langchain/chains';
 //import { ChatGlm6BLLm } from '../llms/chatglm_6b_llm';
 import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.embedding';
 import { CohereEmbeddings } from "langchain/embeddings/cohere";
+import { MyVectorStore } from '../vector_store/myVectorStore';
 import {
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
@@ -47,14 +48,14 @@ export class AppService {
     console.log(docs)
     // console.log({ docs });
     // Load the docs into the vector store
-
-    const vectorStore = await HNSWLib.fromDocuments(
-      docs,
-      //new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
-      new T2VLargeChineseEmbeddings()
-    );
-    const directory = './fileProcessing';
-    await vectorStore.save(directory);
+    MyVectorStore.resetInstance(docs , new T2VLargeChineseEmbeddings());
+    // const vectorStore = await HNSWLib.fromDocuments(
+    //   docs,
+    //   //new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
+    //   new T2VLargeChineseEmbeddings()
+    // );
+    // const directory = './fileProcessing';
+    // await vectorStore.save(directory);
 
     // Load the vector store from the same directory
     
@@ -75,12 +76,11 @@ async chatfile(chatcontent,history) {
 //根据内容回答问题
 //const app = await NestFactory.create(AppModule);
 const directory = './fileProcessing';
-const loadedVectorStore = await HNSWLib.load(
-  directory,
-  //new CohereEmbeddings({apiKey:'UQhKlkpjHhEQkMszkxdTmoH4Ioh7Zo8cxvCGxSYF'})
-  new T2VLargeChineseEmbeddings()
-);
+// const loadedVectorStore = await HNSWLib.load(directory, new T2VLargeChineseEmbeddings());
+const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
 const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
+console.log('ffffffffffffffff',result);
+
 const fileSourceStr = result[0].metadata.source
 //console.log(app.getUrl() + '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]);
 

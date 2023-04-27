@@ -1,22 +1,18 @@
-# Python3.7官网镜像
-FROM python:3.8
-
-# 设置工作目录
-WORKDIR /app
-
-# 复制当前目录下的文件到工作目录
-COPY . /app
-
-# 安装pip库
-RUN pip install -r requirements.txt -i https://pypi.douban.com/simple/ &&\
-  wget https://nodejs.org/dist/v18.16.0/node-v18.16.0.tar.gz &&\
-  tar -zxvf node-v18.16.0.tar.gz -C /opt/
-ENV PATH=$PATH:/opt/node-v18.16.0/bin
-
-RUN npm config set registry https://registry.npm.taobao.org
+FROM node:18
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+# python
+RUN wget https://mirrors.huaweicloud.com/python/3.8.10/Python-3.8.10.tgz
+RUN tar -xzvf Python-3.8.10.tgz
+RUN mkdir /usr/local/python3 
+RUN /usr/src/app/Python-3.8.10/configure --prefix=/usr/local/python3
+RUN make && make install
+RUN ln -s /usr/local/python3/bin/python3  /usr/bin/python
+RUN npm config set registry
 RUN npm i -g pnpm
-RUN pnpm config set registry https://registry.npm.taobao.org
+RUN pnpm config set registry
 RUN pnpm i
-RUN pnpm run build
+
 EXPOSE 3000
-CMD ["node", "/usr/src/app/dist/main.js"]
+CMD ["pnpm", "start"]
