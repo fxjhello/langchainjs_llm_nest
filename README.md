@@ -59,6 +59,6 @@ Node18,Python 3
   - [ ] 增加前端展示界面
 
 ## 项目交流群
-![二维码](img/qr_code_8.jpg)
+![二维码](img/qr_code_8.png)
 
 🎉 langchain-nest.js 项目交流群，如果你也对本项目感兴趣，欢迎加入群聊参与讨论交流。
