@@ -41,7 +41,7 @@ Node18,Python 3
 - 项目下载\
   ```git clone https://github.com/fxjhello/langchain_chatglm_nest.git```
 - 安装依赖
-  
+  - 开发环境得要有python环境(我的是python3.9.10)，用于支持vector_store里使用的hnswlib库
   - javascript\
     `cd langchain_chatglm_nest`
     - yarn # 二选一
