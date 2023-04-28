@@ -38,6 +38,6 @@ export class MyVectorStore {
     );
     const directory = './fileProcessing';
     await vectorStore.save(directory);
-    this.getInstance(directory , newEmbedding);
+    MyVectorStore.instance = new MyVectorStore(directory , newEmbedding);
   }
 }
