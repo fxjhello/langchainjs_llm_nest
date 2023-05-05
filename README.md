@@ -61,7 +61,15 @@ Node18,Python 3
 - 配置
   - .env\
     `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`
-
+### docker部署
+- 1. \
+  ```git clone https://github.com/fxjhello/langchain_chatglm_nest.git```
+- 2. \
+  ```cd langchain_chatglm_nest```
+- 3. \
+  ```docker build -t langchain_chatglm_nest:v1.0.0 -f ./dockerfile . # 打包```
+- 4. \
+  ```docker run -d --restart=always --name langchain_chatglm_nest-main  -p  51798:3000  langchain_chatglm_nest-main:1.0.0 #左边的端口随便取```
 ### 提问
 - issues
 - 微信群\
