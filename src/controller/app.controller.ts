@@ -1,5 +1,4 @@
 import {
-  Headers,
   Body,
   Controller,
   Get,
@@ -15,7 +14,7 @@ import { SampleDto } from '../sample.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get()
   sayHello() {
@@ -28,34 +27,34 @@ export class AppController {
     @Body() body: SampleDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.appService.run();
+    return await this.appService.refactorVectorStore();
 
   }
-@Post('chatfile')
- async chatfile(
-  @Body()  chatcontent,
-  @Headers() Headers,
-) {
-  return await this.appService.chatfile(chatcontent.message,chatcontent.history);
+  @Post('chatfile')
+  async chatfile(
+    @Body() chatcontent,
 
-}
+  ) {
+    return await this.appService.chatfile(chatcontent.message, chatcontent.history);
 
-@Post('chat')
- async chat(
-  @Body()  chatcontent,
-  @Headers() Headers,
-) {
-  return await this.appService.chat(chatcontent.message,chatcontent.history);
+  }
 
-}
+  @Post('chat')
+  async chat(
+    @Body() chatcontent,
 
+  ) {
+    return await this.appService.chat(chatcontent.message, chatcontent.history);
 
+  }
 
 
 
 
 
-//暂时用不到的
+
+
+  //暂时用不到的
   @UseInterceptors(FileInterceptor('file'))
   @Post('file/pass-validation')
   uploadFileAndPassValidation(

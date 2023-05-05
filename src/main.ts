@@ -10,6 +10,7 @@ dotenv.config({
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
   const directory = './fileProcessing';
   MyVectorStore.getInstance(directory , new T2VLargeChineseEmbeddings());
   await app.listen(3000);

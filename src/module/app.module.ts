@@ -7,7 +7,6 @@ import { join } from 'path';
 
 //import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
-import { ChatglmModule } from './chatgml.module';
 import { FileController } from 'src/controller/file.controller';
 import { FileService } from 'src/service/file.service';
 @Module({
@@ -28,7 +27,7 @@ import { FileService } from 'src/service/file.service';
       rootPath: join(__dirname, '../..', 'fileUpload'),
       serveRoot: '/static',
     }),
-    ChatglmModule
+    
   ],
   controllers: [AppController,FileController],
   providers: [AppService , FileService],

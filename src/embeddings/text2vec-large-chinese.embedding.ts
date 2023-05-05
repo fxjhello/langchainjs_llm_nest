@@ -70,7 +70,7 @@ export class T2VLargeChineseEmbeddings extends Embeddings {
     }
     async embeddingWithRetry(request) {
         const makeCompletionRequest = async (params:any) => {
-            const res: any = await axios.post( `${process.env.EMBEDDING_SERVER_URL}/embedDocuments`, params, {
+            const res: any = await axios.post( `${process.env.EMBEDDING_SERVER_URL ?? 'http://localhost'}/embedDocuments`, params, {
                 headers: {
                 'Content-Type': 'application/json',
                 },

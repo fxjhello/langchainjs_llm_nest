@@ -55,7 +55,5 @@ export class AppService {
     /* const result = await loadedVectorStore.similaritySearch('hello world', 1);
     console.log(result); */
   }
-  getHello() {
-    return { hello: 'world' };
-  }
+
 }
