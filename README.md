@@ -5,8 +5,11 @@
 本项目旨在构建一个：模型层-应用层-展示层 三层完全解耦的、支持二次开发的、LLM落地框架。
 
 模型层：使用Python 3。采用Transformers加载模型，并采用Fastapi将所有接口api化。
-后续计划：用OPenai api的格式统一封装所有本地模型。
-         将模型层制作成sdk并独立仓库，进一步降低部署难度。
+后续计划：
+
+用OPenai api的格式统一封装所有本地模型。
+
+将模型层制作成sdk并独立仓库，进一步降低部署难度。
          
 计划参考：https://github.com/ninehills/chatglm-openai-api
 
