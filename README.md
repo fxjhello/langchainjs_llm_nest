@@ -2,7 +2,30 @@
 
 ## 介绍
 
-本项目旨在实现支持js开发本地知识AI中后台。其中的模型部分采用Python封装，并使用Fastapi暴露出接口。对模型部署和Python等不熟悉的开发人员，只需安装依赖并启动即可，将模型部分当作黑盒使用。中后台使用Langchain.js+nest.js框架，如需对业务逻辑做出更改，只需要在这部分开发，实现纯ts/js开发业务逻辑。
+本项目旨在构建一个：模型层-应用层-展示层 三层完全解耦的、支持二次开发的、LLM落地框架。
+
+模型层：使用Python 3。采用Transformers加载模型，并采用Fastapi将所有接口api化。
+后续计划：用OPenai api的格式统一封装所有本地模型。
+         将模型层制作成sdk并独立仓库，进一步降低部署难度。
+计划参考：https://github.com/ninehills/chatglm-openai-api
+
+应用层：使用JS。采用Langchain.js+nest.js框架，实现业务逻辑开发与数据处理，提高与拓展模型层的性能。
+后续计划:结合实际落地痛点，不断升级应用层。
+参考项目：https://github.com/imClumsyPanda/langchain-ChatGLM
+
+展示层: 使用JS。采用vue3全家桶+native-ui,展示本项目的成果。
+后续计划：不断跟进应用层的升级，同时提高页面的美观程度和交互体验。
+参考项目：https://github.com/Chanzhaoyu/chatgpt-web
+
+## 未来展望
+本项目的阶段性目标，是提供 LLM封装->本地知识库搭建->商业化部署->用户反馈收集(前端埋点，数据清洗等)->模型专业领域微调(使用上一个阶段收集的数据集)->LLM封装
+这样的LLM专业领域落地闭环解决方案
+
+## 欢迎加入
+如果你对以上三层的任一层或未来展望感兴趣，欢迎加入我们！
+
+
+## 项目原理
 
 ⛓️ 本项目实现原理如下图来自(https://github.com/imClumsyPanda/langchain-ChatGLM/tree/master) 所示，过程包括加载文件 -> 读取文本 -> 文本分割 -> 文本向量化 -> 问句向量化 -> 在文本向量中匹配出与问句向量最相似的`top k`个 -> 匹配出的文本作为上下文和问题一起添加到`prompt`中 -> 提交给`LLM`生成回答。
 
@@ -10,7 +33,9 @@
 
 ## 变更日志
 
-2023.4.27 项目正式发布v1.0.0
+2023.4.27 项目正式发布v0.1.0
+
+2023.5.7 项目完成初步设计v0.2.0
 
 ## 硬件需求
 
@@ -61,6 +86,14 @@ Node18,Python 3
 - 配置
   - .env\
     `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`
+
+### 前端
+cd views
+
+pnpm i
+
+npm run dev
+
 ### docker部署
 - 1. \
   ```git clone https://github.com/fxjhello/langchain_chatglm_nest.git```
@@ -90,7 +123,7 @@ Node18,Python 3
 - [ ] 增加更多 Embedding 模型支持
   - [x] [GanymedeNil/text2vec-large-chinese](https://huggingface.co/GanymedeNil/text2vec-large-chinese)
 - [ ] 前端
-  - [ ] 增加前端展示界面
+  - [x] 增加前端展示界面
 
 ## 项目交流群
 ![二维码](img/qr_code_8.png)
