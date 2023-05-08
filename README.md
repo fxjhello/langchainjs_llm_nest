@@ -2,7 +2,7 @@
 
 ## 介绍
 
-本项目旨在构建一个：模型层-应用层-展示层 三层完全解耦的、支持二次开发的、LLM落地框架。
+本项目旨在构建一个：模型层(models)-服务层(service)-展示层(views) 三层完全解耦的、支持二次开发、分开部署的、LLM落地框架。
 
 模型层：使用Python 3。采用Transformers加载模型，并采用Fastapi将所有接口api化。
 后续计划：
@@ -10,12 +10,14 @@
 将模型层制作成sdk并独立仓库，进一步降低部署难度。       
 计划参考：https://github.com/ninehills/chatglm-openai-api
 
-应用层：使用JS。采用Langchain.js+nest.js框架，实现业务逻辑开发与数据处理，提高与拓展模型层的性能。
-后续计划:结合实际落地痛点，不断升级应用层。
+服务层：使用JS。采用Langchain.js+nest.js框架，实现业务逻辑开发与数据处理，提高与拓展模型层的性能。
+后续计划:
+结合实际落地痛点，不断升级应用层。
 参考项目：https://github.com/imClumsyPanda/langchain-ChatGLM
 
 展示层: 使用JS。采用vue3全家桶+native-ui,展示本项目的成果。
-后续计划：不断跟进应用层的升级，同时提高页面的美观程度和交互体验。
+后续计划：
+不断跟进应用层的升级，同时提高页面的美观程度和交互体验。
 参考项目：https://github.com/Chanzhaoyu/chatgpt-web
 
 ## 未来展望
@@ -63,9 +65,10 @@ Node18,Python 3
 
 请参考 [THUDM/ChatGLM-6B#从本地加载模型](https://github.com/THUDM/ChatGLM-6B#从本地加载模型)
 
-### 安装依赖并启动
+### 服务层(service)
+cd service
+安装依赖并启动
 - 项目下载\
-  ```git clone https://github.com/fxjhello/langchain_chatglm_nest.git```
 - 安装依赖
   - 开发环境得要有python环境(我的是python3.9.10)，用于支持vector_store里使用的hnswlib库
   - visual studio 里安装c++环境
@@ -74,21 +77,26 @@ Node18,Python 3
     - yarn # 二选一
     - pnpm i # 二选一
     - [x] 不推荐npm
-  - chatGLM-6B\
-    `cd ChatGLM-6B`
-    - pip install -r requirements.txt #建议走国内pip镜像源，比较快
-    - python api.py
-  - embedding\
-    `cd ../embedding`
-    - python api.py # 依赖讲道理都可以在chatGLM-6B的依赖里
 - 运行
   - yarn start:dev # 二选一
   - pnpm start:dev # 二选一
 - 配置
   - .env\
     `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`
+    
+### 模型层(models)    
+cd models
 
-### 前端
+ - chatGLM-6B\
+    `cd ChatGLM-6B`
+    - pip install -r requirements.txt #建议走国内pip镜像源，比较快
+    - python api.py
+    
+  - embedding\
+    `cd ../embedding`
+    - python api.py # 依赖讲道理都可以在chatGLM-6B的依赖里
+
+### 前端(views)
 cd views
 
 pnpm i
