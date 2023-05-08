@@ -12,12 +12,10 @@
 
 应用层：使用JS。采用Langchain.js+nest.js框架，实现业务逻辑开发与数据处理，提高与拓展模型层的性能。
 后续计划:结合实际落地痛点，不断升级应用层。
-
 参考项目：https://github.com/imClumsyPanda/langchain-ChatGLM
 
 展示层: 使用JS。采用vue3全家桶+native-ui,展示本项目的成果。
 后续计划：不断跟进应用层的升级，同时提高页面的美观程度和交互体验。
-
 参考项目：https://github.com/Chanzhaoyu/chatgpt-web
 
 ## 未来展望
