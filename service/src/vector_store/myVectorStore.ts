@@ -1,4 +1,4 @@
-import { Embeddings } from "langchain/embeddings";
+/* import { Embeddings } from "langchain/embeddings";
 import { Document } from "langchain/document";
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 
@@ -40,4 +40,4 @@ export class MyVectorStore {
     await vectorStore.save(directory);
     MyVectorStore.instance = new MyVectorStore(directory , newEmbedding);
   }
-}
+} */

@@ -29,7 +29,6 @@
     "class-validator": "0.14.0",
     "cohere-ai": "^6.2.0",
     "fs": "0.0.1-security",
-    "hnswlib-node": "^1.4.2",
     "langchain": "^0.0.59",
     "mammoth": "^1.5.1",
     "openai": "^3.2.1",
