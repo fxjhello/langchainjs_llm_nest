@@ -84,10 +84,8 @@ cd service
 安装依赖并启动
 - 项目下载\
 - 安装依赖
-  - 开发环境得要有python环境(我的是python3.9.10)，用于支持vector_store里使用的hnswlib库
-  - visual studio 里安装c++环境
   - javascript\
-    `cd langchain_chatglm_nest`
+    `cd service`
     - yarn # 二选一
     - pnpm i # 二选一
     - [x] 不推荐npm
