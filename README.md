@@ -121,6 +121,7 @@ npm run dev
 - 2. \
   ```cd langchain_chatglm_nest```
 - 3. \
+  ```cd service```\
   ```docker build -t langchain_chatglm_nest:v1.0.0 -f ./dockerfile . # 打包```
 - 4. \
   ```docker run -d --restart=always --name langchain_chatglm_nest-main  -p  51798:3000  langchain_chatglm_nest-main:1.0.0 #左边的端口随便取```
