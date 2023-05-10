@@ -7,7 +7,11 @@ export declare class AppController {
         hello: string;
     };
     uploadFile(file: Express.Multer.File): Promise<void>;
-    chatfile(chatcontent: any): Promise<{
+    chatfile(body: any): Promise<{
+        response: import("langchain/schema").ChainValues;
+        url: string;
+    }>;
+    chatfileGPT(body: any): Promise<{
         response: import("langchain/schema").ChainValues;
         url: string;
     }>;

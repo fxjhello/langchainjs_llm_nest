@@ -31,13 +31,18 @@ export class AppController {
   }
   @Post('chatfile')
   async chatfile(
-    @Body() chatcontent,
+    @Body() body: any,
 
   ) {
-    return await this.appService.chatfile(chatcontent.message, chatcontent.history);
+    return await this.appService.chatfile(body);
 
   }
-
+  @Post('chatfile-openai')
+  async chatfileGPT(
+    @Body() body: any,
+  ) {
+    return await this.appService.chatfileOpenAI(body);
+  }
   @Post('chat')
   async chat(
     @Body() chatcontent,

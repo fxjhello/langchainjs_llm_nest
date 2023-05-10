@@ -26,8 +26,11 @@ let AppController = class AppController {
     async uploadFile(file) {
         return await this.appService.refactorVectorStore();
     }
-    async chatfile(chatcontent) {
-        return await this.appService.chatfile(chatcontent.message, chatcontent.history);
+    async chatfile(body) {
+        return await this.appService.chatfile(body);
+    }
+    async chatfileGPT(body) {
+        return await this.appService.chatfileOpenAI(body);
     }
     async chat(chatcontent) {
         return await this.appService.chat(chatcontent.message, chatcontent.history);
@@ -54,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "chatfile", null);
+__decorate([
+    (0, common_1.Post)('chatfile-openai'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "chatfileGPT", null);
 __decorate([
     (0, common_1.Post)('chat'),
     __param(0, (0, common_1.Body)()),
