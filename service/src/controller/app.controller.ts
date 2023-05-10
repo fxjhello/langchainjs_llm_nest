@@ -37,7 +37,7 @@ export class AppController {
     return await this.appService.chatfile(body);
 
   }
-  @Post('chatfile-openai')
+  @Post('chatfileOpenai')
   async chatfileGPT(
     @Body() body: any,
   ) {
