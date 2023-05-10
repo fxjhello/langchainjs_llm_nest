@@ -15,7 +15,7 @@ npm-debug.log
 /.nyc_output
 
 # dist
-/dist
+dist
 pnpm-lock.yaml
 
 fileProcessing

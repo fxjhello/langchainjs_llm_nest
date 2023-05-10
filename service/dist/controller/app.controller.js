@@ -30,6 +30,7 @@ let AppController = class AppController {
         return await this.appService.chatfile(body);
     }
     async chatfileGPT(body) {
+        console.log('chatfile-openai', body);
         return await this.appService.chatfileOpenAI(body);
     }
     async chat(chatcontent) {

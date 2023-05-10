@@ -41,6 +41,8 @@ export class AppController {
   async chatfileGPT(
     @Body() body: any,
   ) {
+    console.log('chatfile-openai',body);
+    
     return await this.appService.chatfileOpenAI(body);
   }
   @Post('chat')
