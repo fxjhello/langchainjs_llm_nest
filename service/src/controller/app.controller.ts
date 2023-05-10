@@ -26,6 +26,7 @@ export class AppController {
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log(decodeURIComponent(escape(file.originalname)));
     return await this.appService.refactorVectorStore();
 
   }
