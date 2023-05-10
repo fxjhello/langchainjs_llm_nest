@@ -15,7 +15,7 @@ const directory_1 = require("langchain/document_loaders/fs/directory");
 const chatglm_6b_1 = require("../chat_models/chatglm-6b");
 const chains_1 = require("langchain/chains");
 const text2vec_large_chinese_embedding_1 = require("../embeddings/text2vec-large-chinese.embedding");
-const myVectorStore_1 = require("../vector_store/myVectorStore");
+const memory_1 = require("langchain/vectorstores/memory");
 const prompts_1 = require("langchain/prompts");
 const text_splitter_1 = require("langchain/text_splitter");
 let AppService = class AppService {
@@ -31,11 +31,22 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        myVectorStore_1.MyVectorStore.resetInstance(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
     }
     async chatfile(chatcontent, history) {
-        const loadedVectorStore = await myVectorStore_1.MyVectorStore.getInstance().hnswlibStore;
-        const result = await loadedVectorStore.similaritySearch(chatcontent, 1);
+        const loader = new directory_1.DirectoryLoader("./fileUpload", {
+            ".txt": (path) => new text_1.TextLoader(path),
+            ".docx": (path) => new docx_1.DocxLoader(path),
+            ".pdf": (path) => new pdf_1.PDFLoader(path),
+        });
+        const textsplitter = new text_splitter_1.RecursiveCharacterTextSplitter({
+            separators: ["\n\n", "\n", "。", "！", "？"],
+            chunkSize: 400,
+            chunkOverlap: 100,
+        });
+        const docs = await loader.loadAndSplit(textsplitter);
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const result = await vectorStore.similaritySearch(chatcontent, 1);
         const fileSourceStr = result[0].metadata.source;
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
@@ -57,7 +68,6 @@ let AppService = class AppService {
     async chat(chatcontent, history) {
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
-            prompts_1.SystemMessagePromptTemplate.fromTemplate(`你是开江内部助手，可以回答用户的问题，提供有用信息，帮助完成文字工作`),
             prompts_1.HumanMessagePromptTemplate.fromTemplate("{text}"),
         ]);
         const chain = new chains_1.LLMChain({

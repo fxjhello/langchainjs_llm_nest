@@ -87,7 +87,7 @@ export class AppService {
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(chatcontent, 1);
-
+    
     const fileSourceStr = result[0].metadata.source
     const chat = new ChatGlm6BLLM({ temperature: 0.01, history: history });
     const translationPrompt = ChatPromptTemplate.fromPromptMessages([
@@ -118,9 +118,8 @@ export class AppService {
 
     const chat = new ChatGlm6BLLM({ temperature: 0.01, history: history });
     const translationPrompt = ChatPromptTemplate.fromPromptMessages([
-      SystemMessagePromptTemplate.fromTemplate(
-        `你是开江内部助手，可以回答用户的问题，提供有用信息，帮助完成文字工作`
-      ),
+    /*   SystemMessagePromptTemplate.fromTemplate(
+      ), */
       /* new MessagesPlaceholder("history"), */
       HumanMessagePromptTemplate.fromTemplate("{text}"),
     ]);
