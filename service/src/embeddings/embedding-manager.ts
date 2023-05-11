@@ -8,8 +8,8 @@ export class EmbeddingManager {
   currentEmbedding: Embeddings;
   private constructor(init?: { openAIKey?: string, cohereKey?: string }) {
     this.embeddings.default = new T2VLargeChineseEmbeddings();
-    console.log('openAIKey', init?.openAIKey);
-    console.log('cohereKey', init?.cohereKey);
+    console.log('openAIKey', init?.openAIKey , process.env.OPENAI_API_KEY);
+    console.log('cohereKey', init?.cohereKey , process.env.COHERE_API_KEY);
     
     // init?.openAIKey && (this.embeddings.openai = new OpenAIEmbeddings({ openAIApiKey: init?.openAIKey ?? process.env.OPENAI_API_KEY }));
     (init?.cohereKey || process.env.COHERE_API_KEY) && (this.embeddings.cohere = new CohereEmbeddings({ apiKey: init?.cohereKey ?? process.env.COHERE_API_KEY }));
