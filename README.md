@@ -84,14 +84,9 @@ cd service
 安装依赖并启动
 - 项目下载\
 - 安装依赖
-  - javascript\
-    `cd service`
-    - yarn # 二选一
-    - pnpm i # 二选一
-    - [x] 不推荐npm
+    - yarn 
 - 运行
-  - yarn start:dev # 二选一
-  - pnpm start:dev # 二选一
+  - pnpm start:dev 
 - 配置
   - .env\
     `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`

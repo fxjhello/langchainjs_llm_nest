@@ -10,7 +10,7 @@ dotenv.config({
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  // app.enableCors();
+  app.enableCors();
   const directory = './fileProcessing';
   //MyVectorStore.getInstance(directory , new T2VLargeChineseEmbeddings());
   !(process.env.EMBEDDING_SERVER_URL || process.env.CHATGLM_6B_SERVER_URL) && console.error('EMBEDDING_SERVER_URL or CHATGLM_6B_SERVER_URL is not set in .env file');

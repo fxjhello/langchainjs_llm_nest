@@ -2,7 +2,9 @@ from fastapi import FastAPI, Request
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 
 from transformers import AutoTokenizer, AutoModel
-import uvicorn, json, datetime
+import uvicorn
+import json
+import datetime
 import torch
 
 DEVICE = "cuda"
@@ -61,6 +63,7 @@ async def embed_documents(request: Request):
     torch_gc()
     return doc_result
 
+
 @app.post("/embedQuery")
 async def embed_query(request: Request):
     global embeddings
@@ -77,7 +80,8 @@ if __name__ == '__main__':
     # tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
     # model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
     # model.eval()
-    embeddings = HuggingFaceEmbeddings(model_name='GanymedeNil/text2vec-large-chinese', )
+    embeddings = HuggingFaceEmbeddings(
+        model_name='GanymedeNil/text2vec-large-chinese', )
     # embeddings.client = sentence_transformers.SentenceTransformer(embeddings.model_name,
     #                                                               device=embedding_device)
     uvicorn.run(app, host='0.0.0.0', port=56391, workers=1)

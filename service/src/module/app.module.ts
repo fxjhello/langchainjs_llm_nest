@@ -19,7 +19,7 @@ import { FileService } from 'src/service/file.service';
           // 自定义文件名
           // const filename = `${nuid.next()}.${file.mimetype.split('/')[1]}`;
           // return cb(null, filename);
-          return  cb(null, file.originalname);
+          return  cb(null, decodeURIComponent(escape(file.originalname)));
         },
       }),
     }),
