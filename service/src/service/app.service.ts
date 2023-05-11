@@ -153,6 +153,8 @@ export class AppService {
     const result = await vectorStore.similaritySearch(message, 1);
     
     const fileSourceStr = result[0].metadata.source
+    console.log('fileSourceStr', fileSourceStr);
+    
     const chat = new OpenAI({ temperature: 0.01 ,openAIApiKey: api_key}, {basePath: basePath.replace(/\/+$/, '') });
     const translationPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(
