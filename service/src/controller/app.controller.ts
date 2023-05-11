@@ -42,6 +42,7 @@ export class AppController {
     @Body() body: any,
   ) {
     console.log('chatfile-openai',body);
+    console.log('xxxxxxxxxxxx,test');
     
     return await this.appService.chatfileOpenAI(body);
   }
