@@ -16,6 +16,7 @@ exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const app_service_1 = require("../service/app.service");
+const embedding_manager_1 = require("../embeddings/embedding-manager");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -39,6 +40,9 @@ let AppController = class AppController {
     }
     async chatOpenAI(body) {
         return await this.appService.chatOpenAI(body);
+    }
+    async setEmbedding(body) {
+        return embedding_manager_1.EmbeddingManager.setCurrentEmbedding(body.name);
     }
 };
 __decorate([
@@ -83,6 +87,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "chatOpenAI", null);
+__decorate([
+    (0, common_1.Post)('set-embedding'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "setEmbedding", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

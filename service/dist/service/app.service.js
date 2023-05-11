@@ -32,7 +32,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
     }
     async chatfile(body) {
         const { message, history } = body;
@@ -48,7 +48,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
         const result = await vectorStore.similaritySearch(message, 1);
         const fileSourceStr = result[0].metadata.source;
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
@@ -82,7 +82,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
         const result = await vectorStore.similaritySearch(message, 1);
         console.log('step2', result);
         const fileSourceStr = result[0].metadata.source;

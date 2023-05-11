@@ -57,6 +57,7 @@ class T2VLargeChineseEmbeddings extends embeddings_1.Embeddings {
         return embeddings;
     }
     async embedQuery(text) {
+        console.log('my embedding text ', text);
         const { data } = await this.embeddingWithRetry({
             documents: text,
         });

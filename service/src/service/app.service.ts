@@ -48,7 +48,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      EmbeddingManager.getEmbedding('cohere')
+      EmbeddingManager.getCurrentEmbedding()
     );
     //MyVectorStore.resetInstance(docs, new T2VLargeChineseEmbeddings());
   }
@@ -89,7 +89,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      EmbeddingManager.getEmbedding('cohere')
+      EmbeddingManager.getCurrentEmbedding()
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);
@@ -154,7 +154,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      EmbeddingManager.getEmbedding('cohere')
+      EmbeddingManager.getCurrentEmbedding()
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);

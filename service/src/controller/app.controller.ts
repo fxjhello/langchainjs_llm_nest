@@ -10,6 +10,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { AppService } from '../service/app.service';
+import { EmbeddingManager } from 'src/embeddings/embedding-manager';
 
 
 @Controller()
@@ -62,4 +63,12 @@ export class AppController {
     return await this.appService.chatOpenAI(body);
 
   }
+  @Post('set-embedding')
+  async setEmbedding(
+    @Body() body,
+  ) {
+    return EmbeddingManager.setCurrentEmbedding(body.name)
+
+  }
+
 }
