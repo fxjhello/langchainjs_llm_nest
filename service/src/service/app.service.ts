@@ -64,6 +64,8 @@ export class AppService {
     //const app = await NestFactory.create(AppModule);
     // const directory = './fileProcessing';
     // const loadedVectorStore = await HNSWLib.load(directory, new T2VLargeChineseEmbeddings());
+    console.log('step1', message, history);
+    
     const loader = new DirectoryLoader(
       "./fileUpload",
       {
@@ -152,7 +154,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      new T2VLargeChineseEmbeddings()
+      EmbeddingManager.getEmbedding('cohere')
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);

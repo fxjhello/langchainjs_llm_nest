@@ -15,7 +15,6 @@ const directory_1 = require("langchain/document_loaders/fs/directory");
 const chatglm_6b_1 = require("../chat_models/chatglm-6b");
 const chains_1 = require("langchain/chains");
 const langchain_1 = require("langchain");
-const text2vec_large_chinese_embedding_1 = require("../embeddings/text2vec-large-chinese.embedding");
 const embedding_manager_1 = require("../embeddings/embedding-manager");
 const memory_1 = require("langchain/vectorstores/memory");
 const prompts_1 = require("langchain/prompts");
@@ -37,6 +36,7 @@ let AppService = class AppService {
     }
     async chatfile(body) {
         const { message, history } = body;
+        console.log('step1', message, history);
         const loader = new directory_1.DirectoryLoader("./fileUpload", {
             ".txt": (path) => new text_1.TextLoader(path),
             ".docx": (path) => new docx_1.DocxLoader(path),
@@ -82,7 +82,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
         const result = await vectorStore.similaritySearch(message, 1);
         console.log('step2', result);
         const fileSourceStr = result[0].metadata.source;
