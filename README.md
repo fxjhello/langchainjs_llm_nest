@@ -99,6 +99,7 @@ cd service
     `在项目的根目录下，设置.env，EMBEDDING_SERVER_URL为embedding的ip地址,CHATGLM_6B_SERVER_URL为chatGLM-6B的ip地址`
     
 ### 模型层(models)    
+（如果不使用本地模型，请忽略此步骤）
 cd models
 
  - chatGLM-6B\
