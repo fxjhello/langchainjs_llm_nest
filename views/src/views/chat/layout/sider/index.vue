@@ -3,6 +3,7 @@ import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { NButton, NLayoutSider, NUpload } from 'naive-ui'
 import List from './List.vue'
+import step from './step.vue'
 import filelist from './filelist.vue'
 import Footer from './Footer.vue'
 import { useAppStore, useChatStore } from '@/store'
@@ -119,6 +120,17 @@ watch(
           </div>
           <div class="p-2 flex-1 min-h-0 pb-4 overflow-hidden">
             <List />
+          </div>
+        </div>
+        <!-- 模型界面 -->
+        <div v-if="menu === 2">
+          <div class="p-4">
+            <NButton block>
+              选择模型
+            </NButton>
+          </div>
+          <div class="p-2 flex-1 min-h-0 pb-4 overflow-hidden">
+            <step />
           </div>
         </div>
         <!--  <div class="p-4">

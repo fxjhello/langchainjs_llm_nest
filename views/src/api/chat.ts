@@ -8,10 +8,24 @@ export const chat = (params: any) => {
     data: qs.stringify(params),
   })
 }
+export const chatOpenAI = (params: any) => {
+  return api({
+    url: '/chatOpenAI',
+    method: 'post',
+    data: qs.stringify(params),
+  })
+}
 
 export const chatfile = (params: any) => {
   return api({
     url: '/chatfile',
+    method: 'post',
+    data: qs.stringify(params),
+  })
+}
+export const chatfileOpenai = (params: any) => {
+  return api({
+    url: '/chatfileOpenai',
     method: 'post',
     data: qs.stringify(params),
   })
@@ -27,6 +41,14 @@ export const getfilelist = () => {
 export const deletefile = (params: any) => {
   return api({
     url: '/file/delete',
+    method: 'post',
+    data: qs.stringify(params),
+  })
+}
+
+export const setembedding = (params: any) => {
+  return api({
+    url: '/set-embedding',
     method: 'post',
     data: qs.stringify(params),
   })
