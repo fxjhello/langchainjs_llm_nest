@@ -54,8 +54,15 @@
 
 2023.5.7 项目完成初步设计v0.2.0
 
-## 硬件需求
+2023.5.11 项目引入Openai和Cohere接口，降低硬件要求
 
+## 硬件需求
+- Openai或Cohere无硬件需求
+   
+   本项目已引入Openai与Cohere接口，使用apikey，无硬件要求。
+   
+   Cohere的embedding模型可以在线使用，注册门槛低且有免费试用额度，推荐尝试 https://dashboard.cohere.ai/api-keys
+   
 - ChatGLM-6B 模型硬件需求
   
     | **量化等级**   | **最低 GPU 显存**（推理） | **最低 GPU 显存**（高效参数微调） |
