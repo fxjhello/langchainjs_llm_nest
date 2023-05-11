@@ -124,6 +124,8 @@ export class AppService {
     //const app = await NestFactory.create(AppModule);
     // const directory = './fileProcessing';
     // const loadedVectorStore = await HNSWLib.load(directory, new T2VLargeChineseEmbeddings());
+    console.log("step1" , basePath);
+    
     const loader = new DirectoryLoader(
       "./fileUpload",
       {
@@ -151,6 +153,7 @@ export class AppService {
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);
+    console.log('step2', result);
     
     const fileSourceStr = result[0].metadata.source
     console.log('fileSourceStr', fileSourceStr);
