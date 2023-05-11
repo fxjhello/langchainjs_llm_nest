@@ -16,6 +16,7 @@ const chatglm_6b_1 = require("../chat_models/chatglm-6b");
 const chains_1 = require("langchain/chains");
 const langchain_1 = require("langchain");
 const text2vec_large_chinese_embedding_1 = require("../embeddings/text2vec-large-chinese.embedding");
+const embedding_manager_1 = require("../embeddings/embedding-manager");
 const memory_1 = require("langchain/vectorstores/memory");
 const prompts_1 = require("langchain/prompts");
 const text_splitter_1 = require("langchain/text_splitter");
@@ -47,7 +48,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
         const result = await vectorStore.similaritySearch(message, 1);
         const fileSourceStr = result[0].metadata.source;
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
@@ -69,6 +70,7 @@ let AppService = class AppService {
     }
     async chatfileOpenAI(body) {
         const { message, history, api_key, basePath } = body;
+        console.log("step1", basePath);
         const loader = new directory_1.DirectoryLoader("./fileUpload", {
             ".txt": (path) => new text_1.TextLoader(path),
             ".docx": (path) => new docx_1.DocxLoader(path),
@@ -82,7 +84,9 @@ let AppService = class AppService {
         const docs = await loader.loadAndSplit(textsplitter);
         const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
         const result = await vectorStore.similaritySearch(message, 1);
+        console.log('step2', result);
         const fileSourceStr = result[0].metadata.source;
+        console.log('fileSourceStr', fileSourceStr);
         const chat = new langchain_1.OpenAI({ temperature: 0.01, openAIApiKey: api_key }, { basePath: basePath.replace(/\/+$/, '') });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
             prompts_1.SystemMessagePromptTemplate.fromTemplate(`基于已知内容, 回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`),
@@ -114,8 +118,10 @@ let AppService = class AppService {
         });
         return response;
     }
-    async chatOpenAI(chatcontent, OpenAIKey, baseUrl) {
-        const chat = new langchain_1.OpenAI({ temperature: 0.01 });
+    async chatOpenAI(body) {
+        const { message, history, api_key, basePath } = body;
+        console.log("step1", message);
+        const chat = new langchain_1.OpenAI({ temperature: 0.01, openAIApiKey: api_key }, { basePath: basePath.replace(/\/+$/, '') });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
             prompts_1.HumanMessagePromptTemplate.fromTemplate("{text}"),
         ]);
@@ -124,7 +130,7 @@ let AppService = class AppService {
             llm: chat,
         });
         const response = await chain.call({
-            text: chatcontent,
+            text: message,
         });
         return response;
     }

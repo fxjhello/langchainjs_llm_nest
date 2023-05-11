@@ -31,10 +31,14 @@ let AppController = class AppController {
     }
     async chatfileGPT(body) {
         console.log('chatfile-openai', body);
+        console.log('xxxxxxxxxxxx,test');
         return await this.appService.chatfileOpenAI(body);
     }
     async chat(chatcontent) {
         return await this.appService.chat(chatcontent.message, chatcontent.history);
+    }
+    async chatOpenAI(body) {
+        return await this.appService.chatOpenAI(body);
     }
 };
 __decorate([
@@ -59,7 +63,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "chatfile", null);
 __decorate([
-    (0, common_1.Post)('chatfile-openai'),
+    (0, common_1.Post)('chatfileOpenai'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -72,6 +76,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "chat", null);
+__decorate([
+    (0, common_1.Post)('chatOpenAI'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "chatOpenAI", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
