@@ -215,7 +215,7 @@ export class AppService {
     const { message, history , api_key , basePath} = body;
     console.log("step1" , message);
     
-    const chat = new OpenAI({ temperature: 0.01 ,openAIApiKey: api_key}, {basePath: basePath.replace(/\/+$/, '') });
+    const chat = new OpenAI({ temperature: 0.01 ,openAIApiKey: api_key});
     const translationPrompt = ChatPromptTemplate.fromPromptMessages([
     /*   SystemMessagePromptTemplate.fromTemplate(
       ), */
