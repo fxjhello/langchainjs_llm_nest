@@ -8,7 +8,10 @@ import { LLMChain } from 'langchain/chains';
 import { OpenAI } from 'langchain';
 //import { ChatGlm6BLLm } from '../llms/chatglm_6b_llm';
 import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.embedding';
+import { OpenAIEmbeddings ,CohereEmbeddings} from "langchain/embeddings";
+import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
+
 //import { MyVectorStore } from '../vector_store/myVectorStore';
 import {
   SystemMessagePromptTemplate,
@@ -45,7 +48,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      new T2VLargeChineseEmbeddings()
+      EmbeddingManager.getCurrentEmbedding()
     );
     //MyVectorStore.resetInstance(docs, new T2VLargeChineseEmbeddings());
   }
@@ -61,6 +64,8 @@ export class AppService {
     //const app = await NestFactory.create(AppModule);
     // const directory = './fileProcessing';
     // const loadedVectorStore = await HNSWLib.load(directory, new T2VLargeChineseEmbeddings());
+    console.log('step1', message, history);
+    
     const loader = new DirectoryLoader(
       "./fileUpload",
       {
@@ -84,7 +89,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      new T2VLargeChineseEmbeddings()
+      EmbeddingManager.getCurrentEmbedding()
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);
@@ -149,7 +154,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      new T2VLargeChineseEmbeddings()
+      EmbeddingManager.getCurrentEmbedding()
     );
     //const loadedVectorStore = await MyVectorStore.getInstance().hnswlibStore;
     const result = await vectorStore.similaritySearch(message, 1);

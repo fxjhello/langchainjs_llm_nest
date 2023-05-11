@@ -9,7 +9,7 @@ export declare class AppService {
         url: string;
     }>;
     chat(chatcontent: any, history: any): Promise<import("langchain/schema").ChainValues>;
-    chatOpenAI(chatcontent: any, OpenAIKey: any, baseUrl: any): Promise<import("langchain/schema").ChainValues>;
+    chatOpenAI(body: any): Promise<import("langchain/schema").ChainValues>;
     getHello(): {
         hello: string;
     };
