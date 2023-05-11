@@ -33,7 +33,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getEmbedding('cohere'));
     }
     async chatfile(body) {
         const { message, history } = body;

@@ -48,7 +48,7 @@ export class AppService {
     // 加载向量存储库 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
-      new T2VLargeChineseEmbeddings()
+      EmbeddingManager.getEmbedding('cohere')
     );
     //MyVectorStore.resetInstance(docs, new T2VLargeChineseEmbeddings());
   }
