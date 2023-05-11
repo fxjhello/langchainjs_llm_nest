@@ -15,7 +15,7 @@ const directory_1 = require("langchain/document_loaders/fs/directory");
 const chatglm_6b_1 = require("../chat_models/chatglm-6b");
 const chains_1 = require("langchain/chains");
 const langchain_1 = require("langchain");
-const embedding_manager_1 = require("../embeddings/embedding-manager");
+const embedding_manager_bak_1 = require("../embeddings/embedding-manager.bak");
 const memory_1 = require("langchain/vectorstores/memory");
 const prompts_1 = require("langchain/prompts");
 const text_splitter_1 = require("langchain/text_splitter");
@@ -32,7 +32,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_bak_1.EmbeddingManager.getCurrentEmbedding());
     }
     async chatfile(body) {
         const { message, history } = body;
@@ -48,7 +48,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_bak_1.EmbeddingManager.getCurrentEmbedding());
         const result = await vectorStore.similaritySearch(message, 1);
         const fileSourceStr = result[0].metadata.source;
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
@@ -82,7 +82,7 @@ let AppService = class AppService {
             chunkOverlap: 100,
         });
         const docs = await loader.loadAndSplit(textsplitter);
-        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_1.EmbeddingManager.getCurrentEmbedding());
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, embedding_manager_bak_1.EmbeddingManager.getCurrentEmbedding());
         const result = await vectorStore.similaritySearch(message, 1);
         console.log('step2', result);
         const fileSourceStr = result[0].metadata.source;

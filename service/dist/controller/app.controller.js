@@ -16,7 +16,7 @@ exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const app_service_1 = require("../service/app.service");
-const embedding_manager_1 = require("../embeddings/embedding-manager");
+const embedding_manager_bak_1 = require("../embeddings/embedding-manager.bak");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -42,7 +42,25 @@ let AppController = class AppController {
         return await this.appService.chatOpenAI(body);
     }
     async setEmbedding(body) {
-        return embedding_manager_1.EmbeddingManager.setCurrentEmbedding(body.name);
+        const { name, api_key } = body;
+        console.log('set-embedding', body);
+        const strategys = {
+            default: async () => {
+                await embedding_manager_bak_1.EmbeddingManager.resetEmbedding();
+                embedding_manager_bak_1.EmbeddingManager.setCurrentEmbedding('default');
+            },
+            cohere: async () => {
+                await embedding_manager_bak_1.EmbeddingManager.resetEmbedding({ cohereKey: api_key });
+                embedding_manager_bak_1.EmbeddingManager.setCurrentEmbedding('cohere');
+            },
+            openai: async () => {
+                await embedding_manager_bak_1.EmbeddingManager.resetEmbedding({ openAIKey: api_key });
+                embedding_manager_bak_1.EmbeddingManager.setCurrentEmbedding('openai');
+            }
+        };
+        if (strategys[name]) {
+            strategys[name]();
+        }
     }
 };
 __decorate([

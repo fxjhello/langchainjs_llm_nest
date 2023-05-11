@@ -9,7 +9,7 @@ import { OpenAI } from 'langchain';
 //import { ChatGlm6BLLm } from '../llms/chatglm_6b_llm';
 import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.embedding';
 import { OpenAIEmbeddings ,CohereEmbeddings} from "langchain/embeddings";
-import { EmbeddingManager } from 'src/embeddings/embedding-manager';
+import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
 //import { MyVectorStore } from '../vector_store/myVectorStore';

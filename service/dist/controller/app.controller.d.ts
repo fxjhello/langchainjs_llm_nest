@@ -17,7 +17,5 @@ export declare class AppController {
     }>;
     chat(chatcontent: any): Promise<import("langchain/schema").ChainValues>;
     chatOpenAI(body: any): Promise<import("langchain/schema").ChainValues>;
-    setEmbedding(body: any): Promise<{
-        status: "success" | "error";
-    }>;
+    setEmbedding(body: any): Promise<void>;
 }

@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './module/app.module';
 //import { MyVectorStore } from './vector_store/myVectorStore';
 import { T2VLargeChineseEmbeddings } from './embeddings/text2vec-large-chinese.embedding';
-import { EmbeddingManager } from './embeddings/embedding-manager';
+import { EmbeddingManager } from './embeddings/embedding-manager.bak';
 import * as dotenv from 'dotenv';
 dotenv.config({
   path:  '.env'

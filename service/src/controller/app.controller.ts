@@ -10,7 +10,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { AppService } from '../service/app.service';
-import { EmbeddingManager } from 'src/embeddings/embedding-manager';
+import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 
 
 @Controller()
@@ -67,8 +67,26 @@ export class AppController {
   async setEmbedding(
     @Body() body,
   ) {
-    return EmbeddingManager.setCurrentEmbedding(body.name)
-
+    const { name ,api_key} = body
+    console.log('set-embedding',body);
+    
+    const strategys = {
+      default: async() => {
+        await EmbeddingManager.resetEmbedding();
+        EmbeddingManager.setCurrentEmbedding('default');
+      },
+      cohere: async() => {
+        await EmbeddingManager.resetEmbedding({ cohereKey: api_key });
+        EmbeddingManager.setCurrentEmbedding('cohere');
+      },
+      openai: async() => {
+        await EmbeddingManager.resetEmbedding({ openAIKey: api_key });
+        EmbeddingManager.setCurrentEmbedding('openai');
+      }
+    }
+    if (strategys[name]) {
+      strategys[name]()
+    }
   }
 
 }
