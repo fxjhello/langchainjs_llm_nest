@@ -55,5 +55,11 @@ export class AppController {
 
   }
 
+  @Post('chatOpenAI')
+  async chatOpenAI(
+    @Body() body,
+  ) {
+    return await this.appService.chatOpenAI(body);
 
+  }
 }

@@ -209,10 +209,10 @@ export class AppService {
 
 
   }
-  async chatOpenAI(chatcontent,  OpenAIKey , baseUrl) {
+  async chatOpenAI(body) {
     //根据内容回答问题
     //const app = await NestFactory.create(AppModule);
-
+    const { message, history , api_key , basePath} = body;
     const chat = new OpenAI({ temperature: 0.01});
     const translationPrompt = ChatPromptTemplate.fromPromptMessages([
     /*   SystemMessagePromptTemplate.fromTemplate(
@@ -229,7 +229,7 @@ export class AppService {
       llm: chat,
     });
     const response = await chain.call({
-      text: chatcontent,
+      text: message,
     });
     //response.push({link: '/static' +fileSourceStr.split("\\")[fileSourceStr.split("\\").length-1]})
 
