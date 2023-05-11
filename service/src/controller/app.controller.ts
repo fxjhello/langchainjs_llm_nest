@@ -32,13 +32,21 @@ export class AppController {
   }
   @Post('chatfile')
   async chatfile(
-    @Body() chatcontent,
+    @Body() body: any,
 
   ) {
-    return await this.appService.chatfile(chatcontent.message, chatcontent.history);
+    return await this.appService.chatfile(body);
 
   }
-
+  @Post('chatfileOpenai')
+  async chatfileGPT(
+    @Body() body: any,
+  ) {
+    console.log('chatfile-openai',body);
+    console.log('xxxxxxxxxxxx,test');
+    
+    return await this.appService.chatfileOpenAI(body);
+  }
   @Post('chat')
   async chat(
     @Body() chatcontent,
@@ -48,5 +56,11 @@ export class AppController {
 
   }
 
+  @Post('chatOpenAI')
+  async chatOpenAI(
+    @Body() body,
+  ) {
+    return await this.appService.chatOpenAI(body);
 
+  }
 }

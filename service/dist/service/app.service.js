@@ -14,6 +14,7 @@ const pdf_1 = require("langchain/document_loaders/fs/pdf");
 const directory_1 = require("langchain/document_loaders/fs/directory");
 const chatglm_6b_1 = require("../chat_models/chatglm-6b");
 const chains_1 = require("langchain/chains");
+const langchain_1 = require("langchain");
 const text2vec_large_chinese_embedding_1 = require("../embeddings/text2vec-large-chinese.embedding");
 const memory_1 = require("langchain/vectorstores/memory");
 const prompts_1 = require("langchain/prompts");
@@ -33,7 +34,8 @@ let AppService = class AppService {
         const docs = await loader.loadAndSplit(textsplitter);
         const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
     }
-    async chatfile(chatcontent, history) {
+    async chatfile(body) {
+        const { message, history } = body;
         const loader = new directory_1.DirectoryLoader("./fileUpload", {
             ".txt": (path) => new text_1.TextLoader(path),
             ".docx": (path) => new docx_1.DocxLoader(path),
@@ -46,7 +48,7 @@ let AppService = class AppService {
         });
         const docs = await loader.loadAndSplit(textsplitter);
         const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
-        const result = await vectorStore.similaritySearch(chatcontent, 1);
+        const result = await vectorStore.similaritySearch(message, 1);
         const fileSourceStr = result[0].metadata.source;
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
@@ -58,7 +60,40 @@ let AppService = class AppService {
             llm: chat,
         });
         const response = await chain.call({
-            text: chatcontent,
+            text: message,
+        });
+        return {
+            response: response,
+            url: '/static/' + fileSourceStr.split("\\")[fileSourceStr.split("\\").length - 1]
+        };
+    }
+    async chatfileOpenAI(body) {
+        const { message, history, api_key, basePath } = body;
+        const loader = new directory_1.DirectoryLoader("./fileUpload", {
+            ".txt": (path) => new text_1.TextLoader(path),
+            ".docx": (path) => new docx_1.DocxLoader(path),
+            ".pdf": (path) => new pdf_1.PDFLoader(path),
+        });
+        const textsplitter = new text_splitter_1.RecursiveCharacterTextSplitter({
+            separators: ["\n\n", "\n", "。", "！", "？"],
+            chunkSize: 400,
+            chunkOverlap: 100,
+        });
+        const docs = await loader.loadAndSplit(textsplitter);
+        const vectorStore = await memory_1.MemoryVectorStore.fromDocuments(docs, new text2vec_large_chinese_embedding_1.T2VLargeChineseEmbeddings());
+        const result = await vectorStore.similaritySearch(message, 1);
+        const fileSourceStr = result[0].metadata.source;
+        const chat = new langchain_1.OpenAI({ temperature: 0.01, openAIApiKey: api_key }, { basePath: basePath.replace(/\/+$/, '') });
+        const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
+            prompts_1.SystemMessagePromptTemplate.fromTemplate(`基于已知内容, 回答用户问题。如果无法从中得到答案，请说'没有足够的相关信息'。已知内容:${result[0].pageContent}`),
+            prompts_1.HumanMessagePromptTemplate.fromTemplate("{text}"),
+        ]);
+        const chain = new chains_1.LLMChain({
+            prompt: translationPrompt,
+            llm: chat,
+        });
+        const response = await chain.call({
+            text: message,
         });
         return {
             response: response,
@@ -67,6 +102,20 @@ let AppService = class AppService {
     }
     async chat(chatcontent, history) {
         const chat = new chatglm_6b_1.ChatGlm6BLLM({ temperature: 0.01, history: history });
+        const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
+            prompts_1.HumanMessagePromptTemplate.fromTemplate("{text}"),
+        ]);
+        const chain = new chains_1.LLMChain({
+            prompt: translationPrompt,
+            llm: chat,
+        });
+        const response = await chain.call({
+            text: chatcontent,
+        });
+        return response;
+    }
+    async chatOpenAI(chatcontent, OpenAIKey, baseUrl) {
+        const chat = new langchain_1.OpenAI({ temperature: 0.01 });
         const translationPrompt = prompts_1.ChatPromptTemplate.fromPromptMessages([
             prompts_1.HumanMessagePromptTemplate.fromTemplate("{text}"),
         ]);
