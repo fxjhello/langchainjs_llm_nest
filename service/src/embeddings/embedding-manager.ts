@@ -6,15 +6,16 @@ export class EmbeddingManager {
   private static instance: EmbeddingManager;
   private embeddings: { [key: string]: Embeddings } = {};
   currentEmbedding: Embeddings;
-  private constructor(init?: { openAIKey: string, cohereKey: string }) {
+  private constructor(init?: { openAIKey?: string, cohereKey?: string }) {
     this.embeddings.default = new T2VLargeChineseEmbeddings();
     console.log('openAIKey', init?.openAIKey);
-
+    console.log('cohereKey', init?.cohereKey);
+    
     // init?.openAIKey && (this.embeddings.openai = new OpenAIEmbeddings({ openAIApiKey: init?.openAIKey ?? process.env.OPENAI_API_KEY }));
     (init?.cohereKey || process.env.COHERE_API_KEY) && (this.embeddings.cohere = new CohereEmbeddings({ apiKey: init?.cohereKey ?? process.env.COHERE_API_KEY }));
     this.currentEmbedding = this.embeddings.default;
   }
-  public static getInstance(init?: { openAIKey: string, cohereKey: string }): EmbeddingManager {
+  public static getInstance(init?: { openAIKey?: string, cohereKey?: string }): EmbeddingManager {
     if (!EmbeddingManager.instance) {
       if (!init) {
         EmbeddingManager.instance = new EmbeddingManager();
