@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider, NUpload } from 'naive-ui'
+import { NButton, NLayoutSider, NRadioButton, NRadioGroup, NUpload } from 'naive-ui'
 import List from './List.vue'
 import step from './step.vue'
 import filelist from './filelist.vue'
@@ -15,7 +15,24 @@ const chatStore = useChatStore()
 const { isMobile } = useBasicLayout()
 
 const menu = ref(1)
-
+const songs = [
+  {
+    value: 1,
+    label: '会话',
+  },
+  {
+    value: 2,
+    label: '模型',
+  },
+  {
+    value: 3,
+    label: '知识库',
+  },
+  {
+    value: 4,
+    label: '提示词',
+  },
+]
 const collapsed = computed(() => appStore.siderCollapsed)
 
 function handleAdd() {
@@ -76,18 +93,14 @@ watch(
     <div class="flex flex-col h-full " :style="mobileSafeArea">
       <main class="flex flex-col flex-1 min-h-0">
         <div class="  flex justify-between">
-          <NButton dashed @click="menu = 1">
-            会话
-          </NButton>
-          <NButton dashed @click="menu = 2">
-            模型
-          </NButton>
-          <NButton dashed @click="menu = 3">
-            知识库
-          </NButton>
-          <NButton dashed @click="menu = 4">
-            提示词
-          </NButton>
+          <NRadioGroup v-model:value="menu" name="radiobuttongroup1">
+            <NRadioButton
+              v-for="song in songs"
+              :key="song.value"
+              :value="song.value"
+              :label="song.label"
+            />
+          </NRadioGroup>
         </div>
 
         <!-- 知识库界面 -->

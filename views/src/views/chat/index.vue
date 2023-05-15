@@ -13,13 +13,12 @@ import HeaderComponent from './components/Header/index.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useChatStore, usePromptStore } from '@/store'
-import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
 import { chat, chatOpenAI, chatfile, chatfileOpenai } from '@/api/chat'
 import { modelsStore } from '@/store/modules/models/models-setting'
 let controller = new AbortController()
 
-const openLongReply = import.meta.env.VITE_GLOB_OPEN_LONG_REPLY === 'true'
+// const openLongReply = import.meta.env.VITE_GLOB_OPEN_LONG_REPLY === 'true'
 
 const store = modelsStore()
 const route = useRoute()
@@ -44,6 +43,8 @@ const inputRef = ref<Ref | null>(null)
 // 添加PromptStore
 const promptStore = usePromptStore()
 
+// 历史记录相关
+const history: any = ref([])
 // 使用storeToRefs，保证store修改后，联想部分能够重新渲染
 const { promptList: promptTemplate } = storeToRefs<any>(promptStore)
 
@@ -65,7 +66,11 @@ function handleSubmit() {
 
 async function onConversation() {
   const message = prompt.value
-
+  if (usingContext.value) {
+    for (let i = 0; i < dataSources.value.length; i = i + 2)
+      history.value.push([`Human:${dataSources.value[i].text}`, `Assistant:${dataSources.value[i + 1].text.split('\n\n数据来源：\n\n')[0]}`])
+  }
+  else { history.value.length = 0 }
   if (!message || message.trim() === '')
     return
 
@@ -110,8 +115,8 @@ async function onConversation() {
   try {
     const lastText = ''
     const fetchChatAPIOnce = async () => {
-      const res = active.value ? await chatfile({ message }) : await chat({ message })
-      const result = active.value ? res.data.response.text : res.data.text
+      const res = active.value ? await chatfile({ message, history: history.value }) : await chat({ message, history: history.value })
+      const result = active.value ? `${res.data.response.text}\n\n数据来源：\n\n[${res.data.url.split('/static/')[1]}](http://127.0.0.1:3000${res.data.url})` : res.data.text
       updateChat(
         +uuid,
         dataSources.value.length - 1,
@@ -225,7 +230,11 @@ async function onConversation() {
 }
 async function onConversation2() {
   const message = prompt.value
-
+  if (usingContext.value) {
+    for (let i = 0; i < dataSources.value.length; i = i + 2)
+      history.value.push([`Human:${dataSources.value[i].text}`, `Assistant:${dataSources.value[i + 1].text.split('\n\n数据来源：\n\n')[0]}`])
+  }
+  else { history.value.length = 0 }
   if (!message || message.trim() === '')
     return
 
@@ -270,8 +279,8 @@ async function onConversation2() {
   try {
     const lastText = ''
     const fetchChatAPIOnce = async () => {
-      const res = active.value ? await chatfileOpenai({ message, api_key: store.Openaikey, basePath: store.Openaipath }) : await chatOpenAI({ message, api_key: store.Openaikey, basePath: store.Openaipath })
-      const result = active.value ? res.data.response.text : res.data.text
+      const res = active.value ? await chatfileOpenai({ message, api_key: store.Openaikey, basePath: store.Openaipath, history: history.value }) : await chatOpenAI({ message, api_key: store.Openaikey, basePath: store.Openaipath, history: history.value })
+      const result = active.value ? `${res.data.response.text}\n\n数据来源：\n\n[${res.data.url.split('/static/')[1]}](http://127.0.0.1:3000${res.data.url})` : res.data.text
       updateChat(
         +uuid,
         dataSources.value.length - 1,
@@ -384,7 +393,7 @@ async function onConversation2() {
   }
 }
 
-async function onRegenerate(index: number) {
+/* async function onRegenerate(index: number) {
   if (loading.value)
     return
 
@@ -493,7 +502,7 @@ async function onRegenerate(index: number) {
   finally {
     loading.value = false
   }
-}
+} */
 
 function handleExport() {
   if (loading.value)
@@ -675,7 +684,6 @@ onUnmounted(() => {
                 :inversion="item.inversion"
                 :error="item.error"
                 :loading="item.loading"
-                @regenerate="onRegenerate(index)"
                 @delete="handleDelete(index)"
               />
               <div class="sticky bottom-0 left-0 flex justify-center">
