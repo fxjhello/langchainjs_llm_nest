@@ -11,7 +11,7 @@ import { T2VLargeChineseEmbeddings } from '../embeddings/text2vec-large-chinese.
 import { OpenAIEmbeddings ,CohereEmbeddings} from "langchain/embeddings";
 import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-
+import { FileService } from 'src/service/file';
 //import { MyVectorStore } from '../vector_store/myVectorStore';
 import {
   SystemMessagePromptTemplate,
@@ -246,6 +246,15 @@ export class AppService {
 
   }
 
+  //文件相关处理
+  async getFileList() {
+    const res=new FileService
+    return res.getFileList()
+  }
+  async deleteFile(fileName) {
+    const res=new FileService
+    return res.deleteFile(fileName)
+  }
   getHello() {
     return { hello: 'world' };
   }

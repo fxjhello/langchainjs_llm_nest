@@ -7,8 +7,6 @@ import { join } from 'path';
 
 //import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
-import { FileController } from 'src/controller/file.controller';
-import { FileService } from 'src/service/file.service';
 @Module({
   imports:[
     MulterModule.register({
@@ -29,7 +27,7 @@ import { FileService } from 'src/service/file.service';
     }),
     
   ],
-  controllers: [AppController,FileController],
-  providers: [AppService , FileService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -22,7 +22,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @UseInterceptors(FileInterceptor('file'))
+  
+//文件相关处理
+@UseInterceptors(FileInterceptor('file'))
   @Post('file')
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
@@ -31,6 +33,17 @@ export class AppController {
     return await this.appService.refactorVectorStore();
 
   }
+  @Get('file/query-list')
+  async queryFileList( ) {
+    console.log(await this.appService.getFileList())
+    return  await this.appService.getFileList()
+  }
+  @Post('file/delete')
+  async deleteFile(@Body() body) {
+    return  await this.appService.deleteFile(body.fileName)
+  }
+
+  
   @Post('chatfile')
   async chatfile(
     @Body() body: any,
