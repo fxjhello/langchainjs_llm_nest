@@ -12,13 +12,12 @@ import { Express } from 'express';
 import { AppService } from '../service/app.service';
 import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 import { ApiBody, ApiConsumes, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { FileDeleteDto, FileUploadDto } from 'src/dto/file.dto';
+import { ChatGlmDto, ChatGptDto, SetEmbeddingDto } from 'src/dto/chat.dto';
 
 
 
-class FileUploadDto {
-  @ApiProperty({ type: 'string', format: 'binary' })
-  file: any;
-}
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
@@ -30,7 +29,7 @@ export class AppController {
   @Post('file')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    description: 'List of cats',
+    description: '上传文件',
     type: FileUploadDto,
  })
   async uploadFile(
@@ -46,7 +45,10 @@ export class AppController {
     return  await this.appService.getFileList()
   }
   @Post('file/delete')
-  @ApiParam({ name: 'fileName', type: String, description: 'example.txt' })
+  @ApiBody({
+    description: '删除文件',
+    type: FileDeleteDto,
+ })
   async deleteFile(@Body() body:any) {
     return  await this.appService.deleteFile(body.fileName)
   }
@@ -54,8 +56,10 @@ export class AppController {
   //Chatglm相关
   
   @Post('chat')
-  @ApiParam({ name: 'message', type: String, description: '你好' })
-  @ApiParam({ name: 'history', type: Array<string>, description: '[[Human:xx,Assistant:xx],[Human:xx,Assistant:xx]]' })
+  @ApiBody({
+    description: 'Glm对话',
+    type: ChatGlmDto,
+ })
   async chat(
     @Body() body:any,
 
@@ -65,8 +69,10 @@ export class AppController {
   }
   
   @Post('chatfile')
-  @ApiParam({ name: 'message', type: String, description: '你好' })
-  @ApiParam({ name: 'history', type: Array<string>, description: '[[Human:xx,Assistant:xx],[Human:xx,Assistant:xx]]' })
+  @ApiBody({
+    description: 'Glm文档问答',
+    type: ChatGlmDto,
+ })
   async chatfile(
     @Body() body: any,
 
@@ -75,8 +81,10 @@ export class AppController {
 
   }
   @Post('chatfileOpenai')
-  @ApiParam({ name: 'message', type: String, description: '你好' })
-  @ApiParam({ name: 'history', type: Array<string>, description: '[[Human:xx,Assistant:xx],[Human:xx,Assistant:xx]]' })
+  @ApiBody({
+    description: 'Gpt文档问答',
+    type: ChatGptDto,
+ })
   async chatfileGPT(
     @Body() body: any,
   ) {
@@ -88,8 +96,10 @@ export class AppController {
   
 
   @Post('chatOpenAI')
-  @ApiParam({ name: 'message', type: String, description: '你好' })
-  @ApiParam({ name: 'history', type: Array<string>, description: '[[Human:xx,Assistant:xx],[Human:xx,Assistant:xx]]' })
+  @ApiBody({
+    description: 'Gpt对话',
+    type: ChatGptDto,
+ })
   async chatOpenAI(
     @Body() body,
   ) {
@@ -97,8 +107,10 @@ export class AppController {
 
   }
   @Post('set-embedding')
-  @ApiParam({ name: 'name', type: String, description: 'default/cohere/openai' })
-  @ApiParam({ name: 'api_key', type: String, description: 'xxxxxxxx' })
+  @ApiBody({
+    description: '设置向量化文档的模型目前三选一',
+    type: SetEmbeddingDto,
+ })
   async setEmbedding(
     @Body() body,
   ) {
