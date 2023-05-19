@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FileService } from 'src/service/file';
 import {ChatglmService} from 'src/service/chatglm'
 import { ChatopenaiService } from './chatopenai';
+import { BingService } from './bing';
 
 
 @Injectable()
@@ -48,5 +49,11 @@ export class AppService {
   async deleteFile(fileName) {
     const res=new FileService
     return res.deleteFile(fileName)
+  }
+
+  //bing搜索
+  async bingsearch(body){
+    const res=new BingService
+    return res.search(body)
   }
 }

@@ -12,7 +12,7 @@ import { Express } from 'express';
 import { AppService } from '../service/app.service';
 import { EmbeddingManager } from 'src/embeddings/embedding-manager.bak';
 import { ApiBody, ApiConsumes, ApiParam, ApiProperty } from '@nestjs/swagger';
-import { FileDeleteDto, FileUploadDto } from 'src/dto/file.dto';
+import { FileDeleteDto, FileUploadDto, searchDto } from 'src/dto/file.dto';
 import { ChatGlmDto, ChatGptDto, SetEmbeddingDto } from 'src/dto/chat.dto';
 
 
@@ -106,6 +106,21 @@ export class AppController {
     return await this.appService.chatOpenAI(body);
 
   }
+
+  @Post('search')
+  @ApiBody({
+    description: 'bing搜索',
+    type: searchDto,
+ })
+  async bingsearch(
+    @Body() body,
+  ) {
+    return await this.appService.bingsearch(body);
+
+  }
+
+
+
   @Post('set-embedding')
   @ApiBody({
     description: '设置向量化文档的模型目前三选一',
